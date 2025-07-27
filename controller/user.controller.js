@@ -29,4 +29,27 @@ userController.createUser = async (req, res)=>{
 
     }
 }
+
+userController.loginWithEmail= async (req, res)=>{
+    try{
+        const{email, password} = req.body
+        const user = await User.findOne({email}, "-createdAt -updatedAt -__v")
+
+        if(user){
+            // password=> 유저가 입력한 값 자체
+            // user.password => 암호화 되어있음
+            const isMatch = bcryptjs.compareSync(password, user.password); // 비교
+            if(isMatch){
+                //토큰 발행
+                // npm json web token 토근 발행
+                const token = user.generateToken()
+                return res.status(200).json({status: "success", user, token}) // 성공 시, 유저 정보랑 토큰 보내줌
+
+            }
+        }
+        throw new Error("아이디 또는 비밀번호가 일치하지 않습니다.")
+    }catch(error){
+        res.status(400).json({status: "fail", error})
+    }
+}
 module.exports = userController

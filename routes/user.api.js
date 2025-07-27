@@ -6,6 +6,9 @@ const userController = require('../controller/user.controller')
 // 1. 회원가입 endpoint 만들기
 router.post("/",userController.createUser);
 
+// 로그인 라우터
+router.post("/login", userController.loginWithEmail)
+
 module.exports = router;    
 
 //npm start하고 postman에서 실험한다.
