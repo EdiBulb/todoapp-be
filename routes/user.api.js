@@ -4,10 +4,10 @@ const router = express.Router(); // router사용
 const userController = require('../controller/user.controller')
 
 // 1. 회원가입 endpoint 만들기
-router.post("/",userController.createUser);
+router.post("/", userController.createUser); // POST /api/user
 
 // 로그인 라우터
-router.post("/login", userController.loginWithEmail)
+router.post("/login", userController.loginWithEmail) // POST/api/user/login
 
 module.exports = router;    
 

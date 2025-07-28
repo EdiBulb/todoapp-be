@@ -12,7 +12,8 @@ const app = express()
 
 app.use(bodyParser.json()) // app uses bodyParser.
 app.use(cors())
-app.use("/api", indexRouter) // app uses indexRouter. // /api라는 주소로 오면 indexRouter로 간다. 
+
+app.use("/api", indexRouter) // /api로 시작하는 요청은 indexRouter가 처리한다.
 
 const mongoURI = MONGODB_URI_PROD
 
