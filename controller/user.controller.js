@@ -19,10 +19,12 @@ userController.createUser = async (req, res)=>{
         const salt = bcryptjs.genSaltSync(10);
         const hash = bcryptjs.hashSync(password, salt);
         console.log("hash:", hash)
-        // 저장
+
+        // 저장 - 받아온 데이터로 새로운 유저 생성
         const newUser = new User({email, name, password:hash})
         await newUser.save()
         res.status(200).json({status:"success"})
+        console.log("유저가 생성되었습니다.")
 
     }catch(error){
         res.status(400).json({status: "fail", error})
@@ -42,7 +44,7 @@ userController.loginWithEmail= async (req, res)=>{
             if(isMatch){
                 //토큰 발행
                 // npm json web token 토근 발행
-                const token = user.generateToken()
+                const token = user.generateToken();
                 return res.status(200).json({status: "success", user, token}) // 성공 시, 유저 정보랑 토큰 보내줌
 
             }
