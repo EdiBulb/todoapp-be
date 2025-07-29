@@ -1,22 +1,31 @@
 require('dotenv').config(); // 세미콜론 꼭 필요!
+
+// 기본 세팅
 const express = require('express')
 const mongoose = require('mongoose')
-const cors =require('cors')
 const bodyParser = require('body-parser')
-const indexRouter = require("./routes/index")
+const app = express()
+app.use(bodyParser.json()) // req.body를 읽어오기 쉽게 bodyParser 사용
 
+const cors =require('cors')
+
+// 라우터 연결
+const indexRouter = require("./routes/index")
+app.use("/api", indexRouter) // /api로 시작하는 url 요청은 indexRouter가 처리한다. // 일부로 "api"를 붙여줘서 FE에서 보내는 요청이라는 것을 확실히 한다.
+
+
+
+
+
+app.use(cors())
+
+//DB관련
 const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD
 console.log("mongoouri:", MONGODB_URI_PROD)
 
-const app = express()
-
-app.use(bodyParser.json()) // app uses bodyParser.
-app.use(cors())
-
-app.use("/api", indexRouter) // /api로 시작하는 요청은 indexRouter가 처리한다.
-
+// 데이터베이스 주소
 const mongoURI = MONGODB_URI_PROD
-
+// 몽구스 연결
 mongoose.connect(mongoURI, {useNewUrlParser:true})
     .then(()=>{console.log("mongoose connected")}) 
     .catch((err)=>{console.log("DB connection fail", err)}) // error인 경우 잡는다.
@@ -25,7 +34,7 @@ const PORT = process.env.PORT || 5000;
 
 // 포트넘버 5000을 주시한다 - 로컬호스트 5000으로 오는 어떤 request는 다 이곳으로 온다. 
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
 
 // 1. 회원가입 로직

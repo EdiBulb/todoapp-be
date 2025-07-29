@@ -4,8 +4,11 @@ const router = express.Router()
 const taskApi = require('./task.api')
 const userApi = require('./user.api')
 
-router.use('/tasks', taskApi) // /api/tasks
-router.use("/user", userApi) // /api/user
+// /tasks라는 주소로 url 주소 호출이 오면, taskApi로 간다. 
+router.use('/tasks', taskApi) 
+
+// /user라는 주소로 url 주소 호출이 오면, userApi로 간다. 
+router.use("/user", userApi) // 
 
 
 module.exports = router
