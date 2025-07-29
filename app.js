@@ -3,25 +3,26 @@ require('dotenv').config(); // 세미콜론 꼭 필요!
 // 기본 세팅
 const express = require('express')
 const mongoose = require('mongoose')
+
+// cors 에러 방지
+const cors =require('cors');
+
+
 const bodyParser = require('body-parser')
+// cors 에러 방지 위해 app에서 cors를 사용한다.
+
 const app = express()
 app.use(bodyParser.json()) // req.body를 읽어오기 쉽게 bodyParser 사용
-
-const cors =require('cors')
-
 // 라우터 연결
+app.use(cors());
+
 const indexRouter = require("./routes/index")
 app.use("/api", indexRouter) // /api로 시작하는 url 요청은 indexRouter가 처리한다. // 일부로 "api"를 붙여줘서 FE에서 보내는 요청이라는 것을 확실히 한다.
 
 
-
-
-
-app.use(cors())
-
 //DB관련
 const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD
-console.log("mongoouri:", MONGODB_URI_PROD)
+// console.log("mongoouri:", MONGODB_URI_PROD)
 
 // 데이터베이스 주소
 const mongoURI = MONGODB_URI_PROD
